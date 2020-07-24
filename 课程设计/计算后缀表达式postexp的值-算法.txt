@@ -1,0 +1,68 @@
+double compvalue(char *postexp)	             //计算后缀表达式的值
+{      double d， a， b， c， e;
+        SqStack1 *Opnd;			//定义操作数栈
+        InitStack1(Opnd);			//初始化操作数栈
+        while (*postexp!='\0')		//postexp字符串未扫描完时循环
+        {	 switch (*postexp)
+	 {
+	 case '+':			//判定为'+'号
+	          Pop1(Opnd，a);		//出栈元素a
+	          Pop1(Opnd，b);		//出栈元素b
+	          c=b+a;			//计算c
+	          Push1(Opnd，c);		//将计算结果c进栈
+	          break;
+
+        case '-':				//判定为'-'号
+	        Pop1(Opnd，a);		//出栈元素a
+	        Pop1(Opnd，b);		//出栈元素b
+	        c=b-a;			//计算c
+	        Push1(Opnd，c);		//将计算结果c进栈
+	        break;
+	case '*':				//判定为'*'号
+	       Pop1(Opnd，a);		//出栈元素a
+	       Pop1(Opnd，b);		//出栈元素b
+	       c=b*a;			//计算c
+	       Push1(Opnd，c);		//将计算结果c进栈
+	       break;
+        case '/':				//判定为'/'号
+	       Pop1(Opnd，a);		//出栈元素a
+	       Pop1(Opnd，b);		//出栈元素b
+	       if (a!=0)
+	       {	c=b/a;			//计算c
+		Push1(Opnd，c);             //将计算结果c进栈
+		break;
+	       }
+	       else
+	       {	printf("\n\t除零错误!\n");
+		exit(0);			//异常退出
+	       }
+	       break;
+       default:			//处理数字字符
+	       d=0;       //将连续的数字字符转换成对应的数值存放到d中
+	      while (*postexp>=‘0’ && *postexp<=‘9’)      //判定为数字字符
+	      {	d=10*d+*postexp-'0';
+		postexp++;
+	      }
+	      Push1(Opnd，d);	//将数值d进栈
+	      break;
+	}
+	postexp++;		//继续处理其他字符
+        }
+        GetTop1(Opnd，e);		//取栈顶元素e
+        DestroyStack1(Opnd);	//销毁栈
+        return e;			//返回e
+}
+
+
+int main()
+{      char exp[]="(56-20)/(4+2)";	   //可将exp改为键盘输入
+        char postexp[MaxSize];
+        trans(exp，postexp);
+        printf("中缀表达式:%s\n"，exp);
+        printf("后缀表达式:%s\n"，postexp);
+        printf("表达式的值:%g\n"，compvalue(postexp));
+        return 1;
+}
+
+
+

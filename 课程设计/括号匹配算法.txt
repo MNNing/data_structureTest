@@ -1,0 +1,30 @@
+Status Matching ( )	
+{      //检验表达式中所含括号是否正确匹配，如果匹配，则返回true ，否    
+       //则返回false ，表达式以“#”结束
+        InitStack(S);               //初始化空栈   
+        flag=1;			   //标记匹配结果以控制循环及返回结果
+        cin>>ch;	           //读入第一个字符
+        while (ch!=‘#‘&&flag)    //假设表达式以“#”结尾
+        {	 
+          switch (ch)
+	 {
+	    case ‘[’:	           //若是左括号，则将其压入栈
+            case ‘(’:			
+	        Push(S，ch);		
+	        break;		
+	    case ‘)’：           //若是“）”，则根据当前栈顶元素的值分情况考虑	                 
+                if(!StackEmpty(S)&&GetTop(S)==‘(’)
+	            Pop(S，x);     //若栈非空且栈顶元素是“(”，则正确匹配
+                else  flag=0;      //若栈空或栈顶元素不是“(”，则错误匹配	
+	        break;
+            case ‘]’：           //若是“]”，则根据当前栈顶元素的值分情况考虑	                 
+                if(!StackEmpty(S)&&GetTop(S)==‘[’)
+	            Pop(S，x);     //若栈非空且栈顶元素是“[”，则正确匹配
+                else  flag=0;      //若栈空或栈顶元素不是“[”，则错误匹配	
+	        break;
+           }                       //switch
+           cin>>ch;                //继续读入下一个字符
+         }                         //while
+         if(StackEmpty(S)&&flag)    return  true; }     //匹配成功  
+        else return false;                              //匹配失败
+}
